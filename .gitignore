@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.data/
+apps/miniapp/dist/
+apps/web-admin/dist/
+output/
+.next/
+*.tsbuildinfo
+.env
+coverage/
+.eslintcache
+apps/miniapp/.temp/
