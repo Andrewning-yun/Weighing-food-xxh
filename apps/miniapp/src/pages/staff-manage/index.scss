@@ -1,0 +1,98 @@
+.staff-v2-page {
+  min-height: 100vh;
+  background: #f6efe5;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sf2-hero,
+.sf2-form,
+.sf2-card,
+.sf2-empty,
+.sf2-loading {
+  background: #fffaf4;
+  border-radius: 24px;
+  box-shadow: 0 12px 30px rgba(95, 54, 18, 0.08);
+}
+
+.sf2-hero,
+.sf2-card-head,
+.sf2-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sf2-hero,
+.sf2-form,
+.sf2-card,
+.sf2-empty,
+.sf2-loading {
+  padding: 24px;
+}
+
+.sf2-form,
+.sf2-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sf2-eyebrow,
+.sf2-subtitle,
+.sf2-message,
+.sf2-card-meta,
+.sf2-line {
+  display: block;
+  font-size: 24px;
+  color: #8a5e3c;
+}
+
+.sf2-title,
+.sf2-card-name,
+.sf2-section-title {
+  display: block;
+  font-size: 38px;
+  font-weight: 700;
+  color: #332012;
+}
+
+.sf2-section-title {
+  font-size: 30px;
+}
+
+.sf2-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid #ead8c7;
+  border-radius: 16px;
+  padding: 18px 20px;
+  font-size: 26px;
+  color: #332012;
+}
+
+.sf2-chip-scroll {
+  white-space: nowrap;
+}
+
+.sf2-chip-row {
+  display: inline-flex;
+  gap: 12px;
+}
+
+.sf2-chip,
+.sf2-badge {
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: 22px;
+  background: #f4e7d9;
+  color: #8a5e3c;
+}
+
+.sf2-chip-active {
+  background: #f08a24;
+  color: #fff;
+}

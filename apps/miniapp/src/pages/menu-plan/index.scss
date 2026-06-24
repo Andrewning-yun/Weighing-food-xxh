@@ -1,0 +1,274 @@
+.menuplan-screen {
+  min-height: 100vh;
+  background: #fff8ef;
+  padding: 0 0 140px;
+}
+
+.mp-hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 24px;
+  padding: 18px 20px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(106, 68, 29, 0.06);
+}
+
+.mp-title {
+  display: block;
+  font-size: 40px;
+  font-weight: 700;
+  color: #2f1d12;
+}
+
+.mp-subtitle,
+.mp-role {
+  display: block;
+  margin-top: 6px;
+  font-size: 22px;
+  color: #8a6f5d;
+}
+
+.mp-search-panel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 24px 0;
+  padding: 18px 20px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(106, 68, 29, 0.06);
+}
+
+.mp-search-input {
+  flex: 1;
+  height: 80px;
+  padding: 0 22px;
+  border-radius: 18px;
+  background: #fff8f1;
+  border: 2px solid #f5dfc7;
+}
+
+.mp-recommend-trigger {
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: #fff0e1;
+  color: #b45d18;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.mp-search-result-panel,
+.mp-loading,
+.mp-empty,
+.mp-role-hint {
+  margin: 16px 24px 0;
+  padding: 18px 20px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(106, 68, 29, 0.06);
+}
+
+.mp-search-item,
+.mp-recommend-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid #f5e3cf;
+}
+
+.mp-search-item:last-child,
+.mp-recommend-item:last-child {
+  border-bottom: 0;
+}
+
+.mp-search-item-info,
+.mp-recommend-item-info {
+  display: grid;
+  gap: 6px;
+}
+
+.mp-search-item-name,
+.mp-recommend-item-name,
+.mp-category-title,
+.mp-dish-name {
+  font-size: 26px;
+  color: #2f1d12;
+  font-weight: 600;
+}
+
+.mp-search-item-meta,
+.mp-recommend-item-meta,
+.mp-recommend-item-reason,
+.mp-dish-station,
+.mp-empty-text,
+.mp-role-hint-text,
+.mp-loading-text,
+.mp-search-empty,
+.mp-recommend-empty {
+  font-size: 20px;
+  color: #8a6f5d;
+}
+
+.mp-search-item-add,
+.mp-recommend-item-add,
+.mp-btn-remove {
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: #e8530e;
+  color: #fff;
+  font-size: 20px;
+}
+
+.mp-message {
+  display: block;
+  margin: 14px 24px 0;
+  font-size: 22px;
+  color: #b45d18;
+}
+
+.mp-dish-list {
+  display: grid;
+  gap: 16px;
+  margin: 16px 24px 0;
+}
+
+.mp-category-block {
+  display: grid;
+  gap: 12px;
+}
+
+.mp-dish-card {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(106, 68, 29, 0.06);
+}
+
+.mp-dish-main,
+.mp-dish-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mp-dish-info,
+.mp-dish-right {
+  display: grid;
+  gap: 6px;
+}
+
+.mp-dish-right {
+  justify-items: end;
+}
+
+.mp-dish-stars {
+  font-size: 20px;
+  color: #e8530e;
+}
+
+.mp-weight-badge {
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 18px;
+}
+
+.mp-weight--featured {
+  background: rgba(232, 83, 14, 0.14);
+  color: #e8530e;
+}
+
+.mp-weight--recommend {
+  background: rgba(245, 158, 11, 0.16);
+  color: #a16207;
+}
+
+.mp-weight--normal {
+  background: #f5eadf;
+  color: #8a6f5d;
+}
+
+.mp-stepper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mp-stepper-btn,
+.mp-stepper-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #fff4e8;
+  font-size: 22px;
+  color: #7d5437;
+}
+
+.mp-stepper-value {
+  width: auto;
+  min-width: 52px;
+  padding: 0 12px;
+  background: transparent;
+  color: #2f1d12;
+  font-weight: 600;
+}
+
+.mp-empty-title {
+  display: block;
+  font-size: 28px;
+  color: #2f1d12;
+  font-weight: 700;
+}
+
+.mp-recommend-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.mp-recommend-tab {
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: #fff0e1;
+  font-size: 20px;
+  color: #9a6331;
+}
+
+.mp-recommend-tab-active {
+  background: #e8530e;
+  color: #fff;
+}
+
+.mp-supplement-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.mp-supplement-form {
+  display: grid;
+  gap: 10px;
+}
+
+.mp-supplement-label {
+  font-size: 22px;
+  color: #6d4f38;
+  font-weight: 600;
+}
+
+.mp-supplement-section-title {
+  display: block;
+  font-size: 24px;
+  color: #2f1d12;
+  font-weight: 700;
+  margin-top: 8px;
+}

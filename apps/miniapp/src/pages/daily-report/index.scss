@@ -1,0 +1,286 @@
+.daily-report-screen {
+  min-height: 100vh;
+  padding: 24px 24px 140px;
+  background:
+    radial-gradient(circle at top right, rgba(232, 89, 12, 0.14), transparent 34%),
+    radial-gradient(circle at 0% 20%, rgba(17, 33, 51, 0.06), transparent 22%),
+    #fff8ef;
+}
+
+.dr-hero,
+.dr-toolbar,
+.dr-card,
+.dr-summary,
+.dr-loading {
+  margin-bottom: 18px;
+}
+
+.dr-hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 28px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #E8530E, #d9480f);
+  color: #fff;
+  box-shadow: 0 20px 40px rgba(232, 89, 12, 0.22);
+}
+
+.dr-eyebrow {
+  display: block;
+  font-size: 18px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.dr-title {
+  display: block;
+  margin-top: 4px;
+  font-size: 40px;
+  font-weight: 800;
+}
+
+.dr-subtitle {
+  display: block;
+  margin-top: 6px;
+  font-size: 22px;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.dr-role {
+  align-self: flex-start;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.dr-role-text {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.dr-toolbar,
+.dr-card,
+.dr-summary,
+.dr-loading {
+  padding: 20px;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(17, 33, 51, 0.06);
+}
+
+.dr-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.dr-date-picker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 72px;
+  padding: 0 18px;
+  border-radius: 18px;
+  border: 1px solid #d8eadf;
+  background: #f8fffa;
+}
+
+.dr-date-label {
+  font-size: 26px;
+  font-weight: 700;
+  color: #112133;
+}
+
+.dr-date-weekday {
+  font-size: 20px;
+  color: #64748b;
+}
+
+.dr-tabs {
+  display: flex;
+  gap: 12px;
+}
+
+.dr-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 66px;
+  border-radius: 16px;
+  background: #f1f5f9;
+}
+
+.dr-tab-active {
+  background: #E8530E;
+}
+
+.dr-tab-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.dr-tab-active .dr-tab-text {
+  color: #fff;
+}
+
+.dr-message {
+  display: block;
+  margin: 4px 4px 12px;
+  color: #b45309;
+  font-size: 22px;
+}
+
+.dr-loading {
+  display: flex;
+  justify-content: center;
+}
+
+.dr-loading-text {
+  font-size: 24px;
+  color: #64748b;
+}
+
+.dr-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dr-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dr-card-title {
+  font-size: 30px;
+  font-weight: 800;
+  color: #112133;
+}
+
+.dr-card-badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #ecfdf3;
+  color: #2b8a3e;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.dr-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.dr-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dr-field-label {
+  font-size: 22px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.dr-input,
+.dr-textarea {
+  width: 100%;
+  padding: 0 18px;
+  border-radius: 18px;
+  border: 1px solid #d8eadf;
+  background: #f8fffa;
+  font-size: 26px;
+  color: #112133;
+  box-sizing: border-box;
+}
+
+.dr-input {
+  height: 72px;
+}
+
+.dr-textarea {
+  min-height: 120px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.dr-tip,
+.dr-summary-text {
+  font-size: 22px;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.dr-feedback-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dr-feedback-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 18px;
+  background: #f8fffa;
+  border: 1px solid #e5f2e9;
+}
+
+.dr-feedback-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dr-feedback-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dr-feedback-name {
+  font-size: 26px;
+  font-weight: 700;
+  color: #112133;
+}
+
+.dr-feedback-meta {
+  font-size: 20px;
+  color: #64748b;
+}
+
+.dr-select-chip {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid #d8eadf;
+}
+
+.dr-select-chip-text {
+  font-size: 18px;
+  color: #E8530E;
+  font-weight: 700;
+}
+
+.dr-summary {
+  border: 1px solid #d8eadf;
+  background: #f8fffa;
+}
+
+.dr-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+

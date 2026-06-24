@@ -1,0 +1,270 @@
+.inventory-screen {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #fff8ef;
+  padding-bottom: 140px;
+}
+
+/* ---- Header ---- */
+.inv-header {
+  padding: 36px 28px 20px;
+  background: linear-gradient(135deg, #2b8a3e, #1b5e20);
+  color: #fff;
+}
+
+.inv-title {
+  display: block;
+  font-size: 40px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.inv-store {
+  display: block;
+  margin-top: 6px;
+  font-size: 22px;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+/* ---- Date Selector ---- */
+.inv-date-scroll {
+  white-space: nowrap;
+  padding: 16px 28px;
+  background: #fff;
+  border-bottom: 1px solid #e8f5e9;
+}
+
+.inv-date-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 80px;
+  margin-right: 12px;
+  border-radius: 14px;
+  background: #f1f8e9;
+  vertical-align: top;
+}
+
+.inv-date-active {
+  background: #2b8a3e;
+}
+
+.inv-date-text {
+  font-size: 26px;
+  font-weight: 600;
+  color: #112133;
+}
+
+.inv-date-active .inv-date-text {
+  color: #fff;
+}
+
+.inv-date-today {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 2px;
+}
+
+.inv-date-active .inv-date-today {
+  color: #fff;
+}
+
+/* ---- Summary ---- */
+.inv-summary {
+  padding: 14px 28px;
+  background: #fff;
+}
+
+.inv-summary-text {
+  font-size: 22px;
+  color: #2b8a3e;
+  font-weight: 500;
+}
+
+/* ---- Success ---- */
+.inv-success {
+  margin: 12px 28px;
+  padding: 16px 20px;
+  border-radius: 14px;
+  background: #e8f5e9;
+  border: 1px solid #c8e6c9;
+}
+
+.inv-success-text {
+  font-size: 24px;
+  color: #2b8a3e;
+  font-weight: 600;
+}
+
+/* ---- Message ---- */
+.inv-message {
+  display: block;
+  padding: 8px 28px;
+  font-size: 24px;
+  color: #b45309;
+}
+
+/* ---- Loading ---- */
+.inv-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 0;
+}
+
+.inv-loading-text {
+  font-size: 26px;
+  color: #94a3b8;
+}
+
+/* ---- Content ---- */
+.inv-content {
+  flex: 1;
+  padding: 10px 28px;
+  max-height: calc(100vh - 500px);
+}
+
+/* ---- Ingredient Group ---- */
+.inv-group {
+  margin-bottom: 24px;
+}
+
+.inv-group-title {
+  display: block;
+  font-size: 26px;
+  font-weight: 700;
+  color: #2b8a3e;
+  margin-bottom: 12px;
+  padding-left: 4px;
+}
+
+.inv-group-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* ---- Ingredient Item ---- */
+.inv-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid #f1f8e9;
+}
+
+.inv-item:last-child {
+  border-bottom: none;
+}
+
+.inv-item-left {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.inv-item-name {
+  font-size: 28px;
+  font-weight: 500;
+  color: #112133;
+}
+
+.inv-item-unit {
+  font-size: 20px;
+  color: #94a3b8;
+}
+
+.inv-item-right {
+  display: flex;
+  align-items: center;
+}
+
+.inv-item-input {
+  width: 140px;
+  height: 64px;
+  padding: 0 16px;
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  font-size: 28px;
+  font-weight: 600;
+  color: #112133;
+  text-align: right;
+  outline: none;
+}
+
+.inv-item-input:focus {
+  border-color: #2b8a3e;
+  background: #fff;
+}
+
+/* ---- Submit Area ---- */
+.inv-submit-area {
+  padding: 20px 28px;
+  padding-bottom: 140px;
+}
+
+.inv-submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #2b8a3e, #1b5e20);
+  box-shadow: 0 4px 16px rgba(43, 138, 62, 0.3);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.inv-submit-disabled {
+  opacity: 0.6;
+}
+
+.inv-submit-text {
+  font-size: 30px;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* ---- Bottom Tab Bar ---- */
+.inv-tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 110px;
+  background: #fff;
+  border-top: 1px solid #e8f5e9;
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.06);
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 100;
+}
+
+.inv-bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 16px;
+}
+
+.inv-bar-label {
+  font-size: 22px;
+  color: #94a3b8;
+}
+
+.inv-bar-active .inv-bar-label {
+  color: #2b8a3e;
+  font-weight: 600;
+}

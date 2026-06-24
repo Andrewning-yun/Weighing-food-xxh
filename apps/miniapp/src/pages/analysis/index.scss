@@ -1,0 +1,146 @@
+.analysis-v2-page {
+  min-height: 100vh;
+  background: #f6efe5;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.an2-hero,
+.an2-kpi,
+.an2-placeholder,
+.an2-loading {
+  background: #fffaf4;
+  border-radius: 24px;
+  box-shadow: 0 12px 30px rgba(95, 54, 18, 0.08);
+}
+
+.an2-hero {
+  padding: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.an2-eyebrow,
+.an2-subtitle,
+.an2-message,
+.an2-placeholder-copy,
+.an2-kpi-label {
+  display: block;
+  font-size: 24px;
+  color: #8a5e3c;
+}
+
+.an2-title {
+  display: block;
+  margin-top: 8px;
+  font-size: 40px;
+  font-weight: 700;
+  color: #332012;
+}
+
+.an2-filter-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.an2-chip-row {
+  display: flex;
+  gap: 12px;
+}
+
+.an2-date-range {
+  font-size: 22px;
+  color: #8a5e3c;
+}
+
+.an2-tab-scroll {
+  white-space: nowrap;
+}
+
+.an2-tab-row {
+  display: inline-flex;
+  gap: 12px;
+}
+
+.an2-tab {
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: #f4e7d9;
+  color: #8a5e3c;
+  font-size: 24px;
+}
+
+.an2-tab-active {
+  background: #f08a24;
+  color: #fff;
+}
+
+.an2-kpis {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.an2-kpi {
+  padding: 24px;
+}
+
+.an2-kpi-value {
+  display: block;
+  font-size: 40px;
+  font-weight: 700;
+  color: #332012;
+}
+
+.an2-placeholder {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.an2-list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0ddca;
+}
+
+.an2-row-title {
+  font-size: 26px;
+  color: #332012;
+}
+
+.an2-row-meta {
+  font-size: 22px;
+  color: #8a5e3c;
+}
+
+.an2-placeholder-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #332012;
+}
+
+.an2-skeleton-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.an2-skeleton-line {
+  height: 20px;
+  background: #f0ddca;
+  border-radius: 999px;
+}
+
+.an2-skeleton-line.short {
+  width: 60%;
+}

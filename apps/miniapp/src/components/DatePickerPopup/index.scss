@@ -1,0 +1,43 @@
+.date-picker-scroll {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.date-picker-list {
+  display: inline-flex;
+  gap: 12px;
+  padding-bottom: 6px;
+}
+
+.date-picker-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 120px;
+  padding: 18px 14px;
+  border-radius: 22px;
+  background: #fff4e8;
+}
+
+.date-picker-item-active {
+  background: linear-gradient(135deg, #e8530e, #ff8f45);
+}
+
+.date-picker-weekday,
+.date-picker-label,
+.date-picker-today {
+  font-size: 22px;
+  color: #7d5437;
+}
+
+.date-picker-label {
+  font-weight: 600;
+  color: #3d2518;
+}
+
+.date-picker-item-active .date-picker-weekday,
+.date-picker-item-active .date-picker-label,
+.date-picker-item-active .date-picker-today {
+  color: #fff;
+}

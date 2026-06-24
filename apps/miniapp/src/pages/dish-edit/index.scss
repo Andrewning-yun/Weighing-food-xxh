@@ -1,0 +1,156 @@
+.dish-edit-page {
+  min-height: 100vh;
+  background: #f6efe5;
+  padding: 24px 24px 48px;
+}
+
+.de-hero,
+.de-section,
+.de-loading {
+  background: #fffaf4;
+  border-radius: 24px;
+  box-shadow: 0 12px 30px rgba(95, 54, 18, 0.08);
+}
+
+.de-hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px;
+  margin-bottom: 20px;
+}
+
+.de-eyebrow {
+  display: block;
+  font-size: 22px;
+  color: #a36a37;
+}
+
+.de-title {
+  display: block;
+  margin-top: 8px;
+  font-size: 40px;
+  font-weight: 700;
+  color: #332012;
+}
+
+.de-subtitle,
+.de-readonly,
+.de-message,
+.de-row-hint,
+.de-label {
+  display: block;
+  font-size: 24px;
+  color: #8a5e3c;
+}
+
+.de-message {
+  margin: 0 0 16px;
+  color: #b4451f;
+}
+
+.de-scroll {
+  height: calc(100vh - 220px);
+}
+
+.de-scroll-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 24px;
+}
+
+.de-section {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.de-section-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #332012;
+}
+
+.de-input,
+.de-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid #ead8c7;
+  border-radius: 16px;
+  padding: 18px 20px;
+  font-size: 26px;
+  color: #332012;
+}
+
+.de-textarea {
+  min-height: 140px;
+}
+
+.de-chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.de-chip,
+.de-picker-chip {
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: 24px;
+  color: #7a5636;
+  background: #f4e7d9;
+}
+
+.de-chip-active {
+  background: #f08a24;
+  color: #fff;
+}
+
+.de-picker-scroll {
+  white-space: nowrap;
+}
+
+.de-picker-row {
+  display: inline-flex;
+  gap: 12px;
+}
+
+.de-row-card {
+  border: 1px solid #f0ddca;
+  border-radius: 18px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.de-row-card-active {
+  border-color: #f08a24;
+  background: #fff6ed;
+}
+
+.de-row-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #332012;
+}
+
+.de-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.de-action-row,
+.de-footer {
+  display: flex;
+  gap: 16px;
+}
+
+.de-footer {
+  padding-bottom: 24px;
+}

@@ -1,0 +1,80 @@
+.import-page {
+  min-height: 100vh;
+  background: #f6efe5;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.import-hero,
+.import-step-card,
+.import-result {
+  background: #fffaf4;
+  border-radius: 24px;
+  box-shadow: 0 12px 30px rgba(95, 54, 18, 0.08);
+  padding: 24px;
+}
+
+.import-title {
+  display: block;
+  font-size: 38px;
+  font-weight: 700;
+  color: #332012;
+}
+
+.import-subtitle,
+.import-copy,
+.import-placeholder,
+.import-message,
+.import-issue-item,
+.import-preview-item {
+  display: block;
+  font-size: 24px;
+  color: #8a5e3c;
+}
+
+.import-steps,
+.import-mode-row,
+.import-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.import-step,
+.import-mode {
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: #f4e7d9;
+  color: #8a5e3c;
+  font-size: 24px;
+}
+
+.import-step-active,
+.import-mode-active {
+  background: #f08a24;
+  color: #fff;
+}
+
+.import-textarea {
+  width: 100%;
+  min-height: 320px;
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid #ead8c7;
+  border-radius: 16px;
+  padding: 18px 20px;
+  font-size: 24px;
+  color: #332012;
+  margin: 16px 0;
+}
+
+.import-issue-list,
+.import-preview-list,
+.import-result-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+}

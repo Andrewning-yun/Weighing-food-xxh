@@ -1,0 +1,31 @@
+{
+  "name": "web-admin",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 4173",
+    "build": "next build",
+    "start": "next start --port 4173",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@fastfood-kitchen/api-client": "1.0.0",
+    "@fastfood-kitchen/config": "1.0.0",
+    "@fastfood-kitchen/design-tokens": "1.0.0",
+    "next": "^14.2.0",
+    "pinyin-pro": "^3.28.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "swr": "^2.4.1",
+    "tdesign-icons-react": "^0.6.4",
+    "tdesign-react": "^1.16.9",
+    "zustand": "^5.0.13"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.3.7",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "typescript": "^5.8.2"
+  }
+}

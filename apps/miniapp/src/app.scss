@@ -1,0 +1,35 @@
+page {
+  min-height: 100%;
+  background: var(--nut-page-bg, #f6efe4);
+  color: var(--nut-text-color, #2D2D2D);
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+view,
+text,
+button,
+input {
+  box-sizing: border-box;
+}
+
+.screen {
+  min-height: 100vh;
+  padding: 28px 24px 40px;
+}
+
+.shell-card {
+  border-radius: 28px;
+  background: var(--nut-white, #FFFFFF);
+  box-shadow: 0 28px 72px rgba(17, 33, 51, 0.12);
+}
+
+.eyebrow {
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 22px;
+  color: var(--nut-success-color, #17694f);
+}
+
+.muted {
+  color: var(--nut-text-color-gray, #64748b);
+}

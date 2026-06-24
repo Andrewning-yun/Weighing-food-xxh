@@ -1,0 +1,278 @@
+.operation-log-screen {
+  display: grid;
+  gap: 18px;
+}
+
+.ol-hero {
+  display: grid;
+  gap: 18px;
+  padding: 28px;
+  background:
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.18), transparent 34%),
+    linear-gradient(135deg, rgba(17, 33, 51, 0.96), rgba(120, 53, 15, 0.92));
+  color: #fff7ed;
+}
+
+.ol-title {
+  display: block;
+  font-size: 44px;
+  font-weight: 700;
+}
+
+.ol-subtitle {
+  display: block;
+  margin-top: 6px;
+  font-size: 24px;
+  color: rgba(255, 247, 237, 0.78);
+  line-height: 1.6;
+}
+
+.ol-kpis {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ol-kpi {
+  display: grid;
+  gap: 6px;
+  padding: 18px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.ol-kpi-label {
+  font-size: 20px;
+  color: rgba(255, 247, 237, 0.72);
+}
+
+.ol-kpi-value {
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.ol-filters {
+  display: grid;
+  gap: 14px;
+  padding: 22px;
+}
+
+.ol-filter-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ol-field {
+  display: grid;
+  gap: 8px;
+}
+
+.ol-field-label {
+  font-size: 20px;
+  color: #64748b;
+}
+
+.ol-input {
+  height: 80px;
+  padding: 0 20px;
+  border-radius: 18px;
+  background: #f8fafc;
+  border: 2px solid rgba(148, 163, 184, 0.18);
+  font-size: 24px;
+}
+
+.ol-field-actions {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.ol-chip-scroll {
+  white-space: nowrap;
+}
+
+.ol-chip-row {
+  display: inline-flex;
+  gap: 10px;
+}
+
+.ol-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border-radius: 999px;
+  background: #fff8ef;
+  border: 1px solid rgba(245, 158, 11, 0.16);
+  color: #7c2d12;
+  font-size: 20px;
+}
+
+.ol-chip-active {
+  background: #7c2d12;
+  color: #fff7ed;
+}
+
+.ol-message {
+  display: block;
+  color: #b45309;
+  font-size: 24px;
+}
+
+.ol-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.ol-stat-card,
+.ol-loading,
+.ol-empty {
+  display: grid;
+  gap: 10px;
+  padding: 24px;
+}
+
+.ol-section-title,
+.ol-empty-title,
+.ol-loading-text {
+  display: block;
+  font-size: 28px;
+  font-weight: 700;
+  color: #112133;
+}
+
+.ol-empty-text {
+  display: block;
+  font-size: 24px;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.ol-stat-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #fef3e2;
+}
+
+.ol-stat-line:last-child {
+  border-bottom: none;
+}
+
+.ol-stat-label {
+  font-size: 22px;
+  color: #475569;
+}
+
+.ol-stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #7c2d12;
+}
+
+.ol-list {
+  display: grid;
+  gap: 14px;
+}
+
+.ol-card {
+  display: grid;
+  gap: 14px;
+  padding: 24px;
+}
+
+.ol-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.ol-card-title {
+  display: block;
+  font-size: 30px;
+  font-weight: 700;
+  color: #112133;
+}
+
+.ol-card-subtitle {
+  display: block;
+  margin-top: 4px;
+  font-size: 22px;
+  color: #64748b;
+}
+
+.ol-time {
+  font-size: 20px;
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+.ol-summary {
+  font-size: 24px;
+  color: #334155;
+  line-height: 1.6;
+}
+
+.ol-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ol-tag {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #f8fafc;
+  color: #475569;
+  font-size: 18px;
+}
+
+.ol-diff-block {
+  display: grid;
+  gap: 10px;
+}
+
+.ol-diff-row {
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: #f8fafc;
+}
+
+.ol-diff-key {
+  font-size: 20px;
+  font-weight: 700;
+  color: #112133;
+}
+
+.ol-diff-value {
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+.ol-diff-before {
+  color: #7c2d12;
+}
+
+.ol-diff-after {
+  color: #166534;
+}
+
+.ol-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 20px 24px;
+}
+
+.ol-pagination-text {
+  font-size: 22px;
+  color: #64748b;
+}

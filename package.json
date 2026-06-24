@@ -1,0 +1,31 @@
+{
+  "name": "fastfood-kitchen",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "services/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:api": "npm run dev --workspace=api",
+    "dev:miniapp": "npm run dev --workspace=miniapp",
+    "dev:web-admin": "npm run dev --workspace=web-admin",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run build && npm run test:workspaces",
+    "test:workspaces": "npm run test --workspaces --if-present",
+    "smoke:web-admin": "node scripts/smoke-web-admin.mjs"
+  },
+  "packageManager": "npm@11.11.0",
+  "engines": {
+    "node": ">=24.14.0"
+  },
+  "description": "Fastfood Kitchen monorepo",
+  "devDependencies": {
+    "playwright-core": "^1.59.1"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-win32-x64-msvc": "^4.60.1",
+    "@tarojs/react": "^3.6.20"
+  }
+}

@@ -1,0 +1,169 @@
+.my-screen {
+  display: grid;
+  gap: 18px;
+  padding-bottom: 140px;
+}
+
+.my-profile-header {
+  display: flex;
+  align-items: center;
+  padding: 28px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #E8530E, #d9480f);
+  color: #fff;
+}
+
+.my-avatar-wrap {
+  margin-right: 18px;
+}
+
+.my-avatar {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.24);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+}
+
+.my-header-info {
+  display: grid;
+  gap: 8px;
+}
+
+.my-title {
+  display: block;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.my-role-tag {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 22px;
+}
+
+.my-subtitle {
+  display: block;
+  font-size: 24px;
+  color: rgba(255, 247, 237, 0.82);
+}
+
+.my-section,
+.my-profile {
+  display: grid;
+  gap: 10px;
+  padding: 26px;
+}
+
+.my-section-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #112133;
+}
+
+.my-overview-row {
+  display: flex;
+  justify-content: space-around;
+  gap: 16px;
+}
+
+.my-overview-item {
+  flex: 1;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+}
+
+.my-overview-num {
+  font-size: 40px;
+  font-weight: 700;
+  color: #112133;
+}
+
+.my-overview-label {
+  font-size: 22px;
+  color: #64748b;
+}
+
+.my-profile-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.my-profile-row:last-child {
+  border-bottom: 0;
+}
+
+.my-profile-label {
+  font-size: 22px;
+  color: #64748b;
+}
+
+.my-profile-value {
+  font-size: 24px;
+  color: #112133;
+  font-weight: 600;
+}
+
+.my-message {
+  font-size: 22px;
+  color: #b45309;
+}
+
+.my-hint {
+  font-size: 22px;
+  color: #64748b;
+}
+
+.my-actions {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.my-shortcut-list {
+  display: grid;
+}
+
+.my-shortcut-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.my-shortcut-item:last-child {
+  border-bottom: 0;
+}
+
+.my-shortcut-icon {
+  font-size: 34px;
+}
+
+.my-shortcut-info {
+  display: grid;
+  gap: 4px;
+}
+
+.my-shortcut-name {
+  font-size: 26px;
+  color: #112133;
+  font-weight: 600;
+}
+
+.my-shortcut-desc {
+  font-size: 22px;
+  color: #64748b;
+}
