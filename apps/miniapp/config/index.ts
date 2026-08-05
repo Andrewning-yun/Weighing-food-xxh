@@ -53,6 +53,9 @@ export default defineConfig(async (merge) => {
       },
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin);
+        chain.module
+          .rule('script')
+          .include.add((filename: string) => filename.includes('fastfood-kitchen'));
       },
     },
     h5: {

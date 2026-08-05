@@ -22,10 +22,10 @@
   },
   "description": "Fastfood Kitchen monorepo",
   "devDependencies": {
-    "playwright-core": "^1.59.1"
+    "playwright-core": "^1.59.1",
+    "webpack": "5.91.0"
   },
   "optionalDependencies": {
-    "@rollup/rollup-win32-x64-msvc": "^4.60.1",
-    "@tarojs/react": "^3.6.20"
+    "@rollup/rollup-win32-x64-msvc": "^4.60.1"
   }
 }

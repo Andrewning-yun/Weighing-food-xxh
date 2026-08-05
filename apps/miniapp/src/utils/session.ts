@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro';
-import { MINIAPP_SESSION_USER_KEY, MINIAPP_TOKEN_KEY } from '../../../../packages/config/index';
+import { MINIAPP_SESSION_USER_KEY, MINIAPP_TOKEN_KEY } from '@fastfood-kitchen/config';
 
 export interface SessionUser {
   id: string;

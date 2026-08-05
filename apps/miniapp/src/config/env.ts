@@ -1,4 +1,4 @@
-import { MINIAPP_DEFAULT_API_BASE_URL, resolveApiBaseUrl } from '../../../../packages/config/index';
+import { MINIAPP_DEFAULT_API_BASE_URL, resolveApiBaseUrl } from '@fastfood-kitchen/config';
 
 declare const MINIAPP_API_BASE_URL: string | undefined;
 

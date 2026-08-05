@@ -10,3 +10,4 @@ output/
 coverage/
 .eslintcache
 apps/miniapp/.temp/
+apps/miniapp/.swc/

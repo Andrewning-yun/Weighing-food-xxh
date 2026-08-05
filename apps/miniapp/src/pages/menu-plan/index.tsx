@@ -104,7 +104,7 @@ function sortRecommendations(items: RecommendationDish[], mode: RecommendMode) {
   const cloned = [...items];
 
   if (mode === 'margin') {
-    return cloned.sort((a, b) => b.expectedMargin - a.expectedMargin || b.score - a.score);
+    return cloned.sort((a, b) => b.estimatedMargin - a.estimatedMargin || b.score - a.score);
   }
 
   if (mode === 'diversity') {
@@ -142,6 +142,8 @@ export default function MenuPlanPage() {
   const user = getSessionUser();
   const role = (user?.role || '') as Role;
   const userStation = user?.station || '';
+  const readOnly = isReadOnly(role);
+  const canEditCurrentMeal = canEditMealType(role, mealTab);
   const filterByStation = Boolean(userStation) && role !== 'admin' && role !== 'chef_manager';
   const canSupplement = Boolean(userStation) && !readOnly && canEditCurrentMeal;
   const supplementDishes = useMemo(() => {
@@ -154,8 +156,6 @@ export default function MenuPlanPage() {
     });
   }, [allDishes, canSupplement, mealTab, userStation]);
   const storeId = getActiveStoreId(user);
-  const readOnly = isReadOnly(role);
-  const canEditCurrentMeal = canEditMealType(role, mealTab);
 
   useEffect(() => {
     if (!hasSession()) {
