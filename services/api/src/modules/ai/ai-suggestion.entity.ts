@@ -36,7 +36,7 @@ export class AiSuggestion {
   @Column({ type: 'varchar', default: AiSuggestionStatus.DRAFT })
   status: AiSuggestionStatus;
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'timestamptz', nullable: true })
   appliedAt: Date | null;
 
   @CreateDateColumn()

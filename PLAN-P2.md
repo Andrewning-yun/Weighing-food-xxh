@@ -129,11 +129,16 @@ GET    /purchase-price-history?storeId=&ingredientId=&startDate=&endDate=
 
 ## 四、部署与数据库（PostgreSQL + 云服务器）
 
-- [ ] T-D1 云服务器安装 PostgreSQL 16 + 创建数据库/账号，配置 `services/api/.env`
-- [ ] T-D2 跑通全部 7 个迁移（含 `20260413000000-add-recommendation-system.ts`），完成 T7.11/T14.2（真实 Postgres 迁移验证）
-- [ ] T-D3 生产构建与部署：`npm run build --workspace=api` + `--workspace=web-admin`，PM2（或 Docker Compose）托管，Nginx 反代 + HTTPS
+- [ ] T-D1 云服务器安装 PostgreSQL 16 + 创建数据库/账号，配置 `services/api/.env`（本地验证已完成，云服务器执行）
+- [x] T-D2 跑通全部迁移（7 个历史 + 1 个 schema 对齐），完成 T7.11/T14.2 —— **2026-08-06 本机 Docker Postgres 16 验证通过**
+- [x] T-D2.1 修复 `data-source.ts` 未注册的 3 个迁移（normalize-station-values / add-user-station / create-supplementary-order）
+- [x] T-D2.2 修复迁移与实体 schema 漂移：`dish.ingredientCost`（standardCost 改名未跟随）、`algorithm_config.recommendLimit`、`ai_suggestions.appliedAt` 类型、`reportedBy/completedBy/storeId/operatedBy` 类型（uuid↔varchar）→ 新增迁移 `20260806000000-align-schema-with-entities`
+- [x] T-D2.3 `data-source.ts` 加载 .env（`import '../env'`），typeorm CLI 与 app 行为一致
+- [x] T-D2.4 Postgres 全量接口冒烟：登录/门店/食材/菜品/推荐/菜单计划/反馈/经营数据/菜单评分 11 项通过
+- [x] T-D2.5 修复 `menu-score` 漏传 dishes 时 500（`input.dishes ?? []`）
+- [x] T-D3 生产部署产物：`docker-compose.yml`（postgres+api+web-admin）、两个 Dockerfile、`deploy/nginx.conf`、`.env.example` 生产配置段；`docs/production-deployment.md` 已更新为 P2 版（compose 语法已验证）
 - [ ] T-D4 miniapp 发布准备：**微信小程序备案 + 业务域名 HTTPS 配置**（周期最长的外部流程，尽早启动）；`TARO_APP_API_BASE_URL` 指向生产域名
-- [ ] T-D5 数据备份策略：每日 pg_dump + 保留策略；上线前验证恢复演练
+- [ ] T-D5 数据备份策略：每日 pg_dump + 保留策略（cron 示例已写入部署文档）；上线前验证恢复演练
 
 ## 五、Git 与工程纪律
 

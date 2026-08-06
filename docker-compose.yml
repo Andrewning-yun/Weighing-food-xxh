@@ -1,0 +1,67 @@
+# Fastfood Kitchen 生产部署栈（PostgreSQL + API + Web Admin）
+# 用法：
+#   1. 复制 .env.example → .env，填写真实密码与密钥
+#   2. docker compose up -d --build
+#   3. 迁移由 api 容器启动时自动执行（migration:run）
+#   4. 宿主机 Nginx 反代 → 80/443：web-admin(:4173)，/api → api(:3000)
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: ffk-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?请设置 DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME:-fastfood_kitchen}
+    volumes:
+      - ffk-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-fastfood_kitchen}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    ports:
+      # 仅本机可访问（容器网络内部通过服务名访问，无需对外暴露）
+      - "127.0.0.1:5432:5432"
+
+  api:
+    build:
+      context: .
+      dockerfile: services/api/Dockerfile
+    container_name: ffk-api
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DB_TYPE: postgres
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:?请设置 DB_PASSWORD}
+      DB_NAME: ${DB_NAME:-fastfood_kitchen}
+      DB_SYNCHRONIZE: "false"
+      DB_LOGGING: "false"
+      SEED_ON_BOOT: ${SEED_ON_BOOT:-false}
+      DEMO_ADMIN_USERNAME: ${DEMO_ADMIN_USERNAME:-admin}
+      DEMO_ADMIN_PASSWORD: ${DEMO_ADMIN_PASSWORD:-admin1234}
+      JWT_SECRET: ${JWT_SECRET:?请设置 JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  web-admin:
+    build:
+      context: .
+      dockerfile: apps/web-admin/Dockerfile
+    container_name: ffk-web-admin
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      API_BASE_URL: http://api:3000/api
+    depends_on:
+      - api
+
+volumes:
+  ffk-pgdata:

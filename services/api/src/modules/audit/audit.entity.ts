@@ -60,7 +60,7 @@ export class AuditRecord {
   @Column({ nullable: true })
   reviewedByName: string | null;
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'timestamptz', nullable: true })
   reviewedAt: Date | null;
 
   @Column({ nullable: true })

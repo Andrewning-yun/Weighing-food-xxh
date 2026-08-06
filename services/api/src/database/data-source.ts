@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import '../env';
 import { DataSource } from 'typeorm';
 import { AiSuggestion } from '../modules/ai/ai-suggestion.entity';
 import { AlgorithmConfig } from '../modules/algorithm-config/algorithm-config.entity';
@@ -20,6 +21,10 @@ import { InitialSchema20260408140000 } from './migrations/20260408140000-initial
 import { AddV1Features20260412000000 } from './migrations/20260412000000-add-v1-features';
 import { AddRecommendationSystem20260413000000 } from './migrations/20260413000000-add-recommendation-system';
 import { AddAuditRecordTable20260414000000 } from './migrations/20260414000000-add-audit-record';
+import { NormalizeStationValues20260513000000 } from './migrations/20260513000000-normalize-station-values';
+import { AddUserStation20260513000000 } from './migrations/20260513000001-add-user-station';
+import { CreateSupplementaryOrderTable20260513000000 } from './migrations/20260513000002-create-supplementary-order';
+import { AlignSchemaWithEntities20260806000000 } from './migrations/20260806000000-align-schema-with-entities';
 
 export default new DataSource({
   type: 'postgres',
@@ -53,5 +58,9 @@ export default new DataSource({
     AddV1Features20260412000000,
     AddRecommendationSystem20260413000000,
     AddAuditRecordTable20260414000000,
+    NormalizeStationValues20260513000000,
+    AddUserStation20260513000000,
+    CreateSupplementaryOrderTable20260513000000,
+    AlignSchemaWithEntities20260806000000,
   ],
 });

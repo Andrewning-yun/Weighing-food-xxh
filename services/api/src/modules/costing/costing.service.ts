@@ -219,7 +219,7 @@ export class CostingService {
     const config = await this.getResolvedConfig(input.storeId);
     const store = await this.storeRepository.findOne({ where: { id: input.storeId } });
     const pricePerLiang = Number(store?.pricePerLiang ?? 0);
-    const dishIds = input.dishes.map((item) => item.dishId);
+    const dishIds = (input.dishes ?? []).map((item) => item.dishId);
     const dishes = dishIds.length ? await this.dishRepository.find({ where: { id: In(dishIds) } }) : [];
     const standards = await this.menuStandardRepository.find({
       where: { storeId: input.storeId, mealType: input.mealType },
