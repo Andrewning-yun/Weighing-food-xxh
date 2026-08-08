@@ -1,7 +1,6 @@
 import { ScrollView, Text, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { useEffect, useMemo, useState } from 'react';
-import TabBar from '../../components/TabBar';
 import { fetchDailyMetrics } from '../../api/daily-report';
 import { fetchDishes, type DishSummary } from '../../api/dish';
 import { fetchMenuPlans, type MenuPlan } from '../../api/menu-plan';
@@ -307,10 +306,8 @@ export default function IndexPage() {
       <View className='dash-signout'>
         <Text className='dash-signout-link' onClick={handleSignOut}>
           退出登录
-        </Text>
+         </Text>
       </View>
-
-      <TabBar current='index' />
     </View>
   );
 }

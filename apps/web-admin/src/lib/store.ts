@@ -63,6 +63,19 @@ export function useCurrentStoreId(): string | undefined {
   return useAppStore((state) => state.currentStore?.id);
 }
 
+export function useStoreContext(): { storeId: string; storeName: string } {
+  const currentStore = useAppStore((state) => state.currentStore);
+  const user = useAppStore((state) => state.user);
+  const storeId = currentStore?.id || user?.storeId || '';
+  const storeName = currentStore?.name || user?.storeName || '';
+  return { storeId, storeName };
+}
+
+export function useCanSwitchStore(): boolean {
+  const user = useAppStore((state) => state.user);
+  return user?.role === 'admin' || user?.role === 'buyer';
+}
+
 export function useHasRole(roles: string[]): boolean {
   const user = useAppStore((state) => state.user);
   if (!user) return false;

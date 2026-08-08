@@ -2,7 +2,6 @@ import { Text, View } from '@tarojs/components';
 import { Button as NutButton } from '@nutui/nutui-react-taro';
 import Taro from '@tarojs/taro';
 import { useEffect, useMemo, useState } from 'react';
-import TabBar from '../../components/TabBar';
 import { me } from '../../api/auth';
 import {
   clearSession,
@@ -170,8 +169,6 @@ export default function MyPage() {
           退出
         </NutButton>
       </View>
-
-      <TabBar current='my' />
     </View>
   );
 }

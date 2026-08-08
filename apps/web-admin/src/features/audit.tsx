@@ -9,7 +9,6 @@ import Table from 'tdesign-react/es/table';
 import Tag from 'tdesign-react/es/tag';
 import {
   approveAuditRecord,
-  fetchStores,
   getAuditStats,
   listAuditRecords,
   rejectAuditRecord,
@@ -18,6 +17,7 @@ import {
 import { DataTable, type Column } from '../components/data-table';
 import { toast } from '../lib/toast';
 import { formatDateTime } from '../lib/format';
+import { useStoreContext } from '../lib/store';
 
 const MODULE_OPTIONS = [
   { value: '', label: '全部模块' },
@@ -56,8 +56,7 @@ const COLUMNS: Column<AuditRecord>[] = [
 ];
 
 export function AuditPage() {
-  const { data: stores = [] } = useSWR('audit-stores', fetchStores);
-  const [storeId, setStoreId] = useState('');
+  const { storeId } = useStoreContext();
   const [module, setModule] = useState('');
   const [status, setStatus] = useState('pending');
   const [action, setAction] = useState('');
@@ -83,11 +82,6 @@ export function AuditPage() {
     storeId ? ['audit-stats', storeId] : null,
     () => getAuditStats(storeId).catch(() => null),
   );
-
-  // Set initial store
-  if (!storeId && stores.length > 0) {
-    setStoreId(stores[0].id);
-  }
 
   // Auto-select first record
   useEffect(() => {
@@ -143,14 +137,10 @@ export function AuditPage() {
       .filter((item): item is { key: string; before: string; after: string } => Boolean(item));
   }, [selected]);
 
-  const storeOptions = stores.map((s) => ({ value: s.id, label: s.name }));
-
   return (
     <div className="page-stack">
       <Card title="审核中心" subtitle="按门店筛选待审核记录并处理变更" actions={<Tag theme="default">{records.length} 条记录</Tag>} bordered>
         <div className="grid-form">
-          <label><span className="detail-label">门店</span>
-            <Select value={storeId || undefined} onChange={(v) => setStoreId(v as string)} options={storeOptions} placeholder="请选择门店" clearable={false} /></label>
           <label><span className="detail-label">模块</span>
             <Select value={module || undefined} onChange={(v) => setModule((v as string) || '')} options={MODULE_OPTIONS} /></label>
           <label><span className="detail-label">状态</span>

@@ -5,7 +5,6 @@ import Select from 'tdesign-react/es/select';
 import Table from 'tdesign-react/es/table';
 import Tag from 'tdesign-react/es/tag';
 import {
-  fetchStores,
   getCategoryDistributionAnalysis,
   getDishFrequencyAnalysis,
   getIngredientUsageAnalysis,
@@ -16,6 +15,7 @@ import {
   type MealTypeValue,
   type ProfitDistributionAnalysisItem,
 } from '../lib/api';
+import { useStoreContext } from '../lib/store';
 
 function today() {
   return new Date().toISOString().slice(0, 10);
@@ -34,16 +34,10 @@ const MEAL_TYPE_OPTIONS = [
 ];
 
 export function AnalysisPage() {
-  const { data: stores = [] } = useSWR('analysis-stores', fetchStores);
-  const [storeId, setStoreId] = useState('');
+  const { storeId } = useStoreContext();
   const [startDate, setStartDate] = useState(thirtyDaysAgo());
   const [endDate, setEndDate] = useState(today());
   const [mealType, setMealType] = useState<MealTypeValue | ''>('');
-
-  // Set initial store
-  if (!storeId && stores.length > 0) {
-    setStoreId(stores[0].id);
-  }
 
   const { data, isLoading } = useSWR(
     storeId ? ['analysis', storeId, startDate, endDate, mealType] : null,
@@ -64,18 +58,12 @@ export function AnalysisPage() {
   const profitDistribution = data?.profits ?? [];
   const categoryDistribution = data?.categories ?? [];
 
-  const storeOptions = stores.map((s) => ({ value: s.id, label: s.name }));
-
   return (
     <div className="page-stack">
       <Card title="菜品分析" subtitle="查看食材使用、菜品频次、毛利和分类分布"
         actions={isLoading ? <Tag theme="warning">加载中</Tag> : <Tag theme="success">已加载</Tag>} bordered>
 
         <div className="grid-form">
-          <label>
-            <span className="detail-label">门店</span>
-            <Select value={storeId || undefined} onChange={(v) => setStoreId(v as string)} options={storeOptions} placeholder="请选择门店" clearable={false} />
-          </label>
           <label>
             <span className="detail-label">餐别</span>
             <Select value={mealType || undefined} onChange={(v) => setMealType((v as MealTypeValue | '') || '')} options={MEAL_TYPE_OPTIONS} />

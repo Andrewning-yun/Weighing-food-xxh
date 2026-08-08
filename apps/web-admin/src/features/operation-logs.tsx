@@ -8,11 +8,11 @@ import Textarea from 'tdesign-react/es/textarea';
 import Tag from 'tdesign-react/es/tag';
 import Space from 'tdesign-react/es/space';
 import {
-  fetchStores,
   getOperationLogStats,
   listOperationLogs,
   type OperationLogRecord,
 } from '../lib/api';
+import { useStoreContext } from '../lib/store';
 import { formatDateTime } from '../lib/format';
 
 const MODULE_OPTIONS = ['dish', 'ingredient', 'store', 'user', 'menu-plan', 'inventory', 'task'];
@@ -33,18 +33,12 @@ function getOperatorName(log: OperationLogRecord) {
 }
 
 export function OperationLogsPage() {
-  const { data: stores = [] } = useSWR('oplog-stores', fetchStores);
-  const [queryStoreId, setQueryStoreId] = useState('');
+  const { storeId: queryStoreId } = useStoreContext();
   const [queryModule, setQueryModule] = useState('');
   const [queryOperator, setQueryOperator] = useState('');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
   const [page, setPage] = useState(1);
-
-  // Set initial store
-  if (!queryStoreId && stores.length > 0) {
-    setQueryStoreId(stores[0].id);
-  }
 
   const { data: logs = [], isLoading } = useSWR(
     queryStoreId ? ['operation-logs', queryStoreId, queryModule, queryOperator, dateFrom, dateTo] : null,
@@ -72,18 +66,12 @@ export function OperationLogsPage() {
 
   const totalPages = Math.max(1, Math.ceil(logs.length / PAGE_SIZE));
 
-  const storeOptions = stores.map((s) => ({ value: s.id, label: s.name }));
-
   return (
     <div className="page-stack">
       <Card title="操作日志" subtitle="按门店筛选操作日志，查看变更前后数据。" actions={<Tag theme="default">{totalLogs} 条日志</Tag>} bordered>
         {isLoading ? <p className="muted">正在加载日志...</p> : null}
 
         <div className="grid-form">
-          <label>
-            <span className="detail-label">门店</span>
-            <Select value={queryStoreId || undefined} onChange={(v) => setQueryStoreId(v as string)} options={storeOptions} placeholder="选择门店" clearable={false} />
-          </label>
           <label>
             <span className="detail-label">模块</span>
             <Select value={queryModule || undefined} onChange={(v) => setQueryModule((v as string) || '')} options={MODULE_SELECT_OPTIONS} placeholder="全部模块" />

@@ -7,6 +7,11 @@ const PUBLIC_PATHS = ['/login', '/_next', '/api', '/favicon.ico'];
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // 根路径 → 工作台（无 token 时中间件会继续重定向到登录）
+  if (pathname === '/') {
+    return NextResponse.redirect(new URL('/dashboard', request.url));
+  }
+
   // Allow public paths
   if (PUBLIC_PATHS.some((p) => pathname.startsWith(p))) {
     return NextResponse.next();

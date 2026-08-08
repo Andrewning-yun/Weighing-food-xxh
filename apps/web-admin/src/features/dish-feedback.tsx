@@ -9,7 +9,6 @@ import Tag from 'tdesign-react/es/tag';
 import {
   fetchDishes,
   fetchDishFeedback,
-  fetchStores,
   saveDishFeedback,
   type DishFeedbackDraft,
   type DishFeedbackRecord,
@@ -18,6 +17,7 @@ import {
 } from '../lib/api';
 import { DataTable, type Column } from '../components/data-table';
 import { toast } from '../lib/toast';
+import { useStoreContext } from '../lib/store';
 
 const MEAL_OPTIONS: Array<{ value: MealTypeValue; label: string }> = [
   { value: 'breakfast', label: '早餐' },
@@ -45,9 +45,8 @@ const COLUMNS: Column<DishFeedbackRecord>[] = [
 ];
 
 export function DishFeedbackPage() {
-  const { data: stores = [] } = useSWR('feedback-stores', fetchStores);
   const { data: dishes = [] } = useSWR('feedback-dishes', fetchDishes);
-  const [queryStoreId, setQueryStoreId] = useState('');
+  const { storeId: queryStoreId, storeName } = useStoreContext();
   const [queryDate, setQueryDate] = useState('');
   const [queryMealType, setQueryMealType] = useState<'' | MealTypeValue>('');
   const [draft, setDraft] = useState<DishFeedbackDraft>(createEmptyDraft('', ''));
@@ -58,12 +57,12 @@ export function DishFeedbackPage() {
     () => fetchDishFeedback({ storeId: queryStoreId, date: queryDate || undefined, mealType: queryMealType || undefined }),
   );
 
-  // Set initial store and draft
-  if (!queryStoreId && stores.length > 0) {
-    const store = stores[0];
-    setQueryStoreId(store.id);
-    if (dishes[0]) setDraft(createEmptyDraft(store.id, dishes[0].id));
-  }
+  // Initialize draft when store changes
+  useEffect(() => {
+    if (!queryStoreId) return;
+    setDraft(createEmptyDraft(queryStoreId, dishes[0]?.id || ''));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queryStoreId]);
 
   async function handleSave() {
     setSaving(true);
@@ -83,7 +82,7 @@ export function DishFeedbackPage() {
     setDraft({ id: record.id, storeId: record.storeId, date: record.date, mealType: record.mealType, dishId: record.dishId, leftoverLevel: record.leftoverLevel, note: record.note ?? '' });
   }
 
-  const storeOptions = stores.map((s) => ({ value: s.id, label: s.name }));
+  const storeOptions = [{ value: queryStoreId, label: storeName }];
   const dishOptions = dishes.map((d) => ({ value: d.id, label: d.name }));
 
   const allColumns: Column<DishFeedbackRecord>[] = [
@@ -95,8 +94,6 @@ export function DishFeedbackPage() {
     <div className="page-stack">
       <Card title="菜品反馈" subtitle="记录每道菜品的剩余等级和备注。" actions={<Tag theme="default">{items.length} 条</Tag>} bordered>
         <div className="grid-form">
-          <label><span>门店</span>
-            <Select value={queryStoreId} onChange={(v) => setQueryStoreId(v as string)} options={storeOptions} placeholder="选择门店" clearable={false} /></label>
           <label><span>日期</span>
             <input type="date" value={queryDate} onChange={(e) => setQueryDate(e.target.value)}
               style={{ width: '100%', borderRadius: 'var(--td-radius-default, 6px)', border: '1px solid var(--td-component-border)', padding: '5px 8px', height: 32, fontSize: '0.9rem', background: 'var(--td-bg-color-container)' }} /></label>

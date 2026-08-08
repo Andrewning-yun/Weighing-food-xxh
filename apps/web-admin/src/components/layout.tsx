@@ -1,12 +1,13 @@
-import { type ReactNode, useState, useCallback, useMemo } from 'react';
+import { type ReactNode, useState, useCallback, useMemo, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import Layout from 'tdesign-react/es/layout';
 import Menu from 'tdesign-react/es/menu';
+import Select from 'tdesign-react/es/select';
 import { Button } from 'tdesign-react/es/button';
-import { LogoutIcon, MenuFoldIcon, MenuUnfoldIcon } from 'tdesign-icons-react';
+import { LogoutIcon, MenuFoldIcon, MenuUnfoldIcon, ShopIcon } from 'tdesign-icons-react';
 import { GROUP_LABELS, GROUP_ORDER, getRoutesByGroup, ROUTES, canAccessRoute } from '../lib/routes';
-import { useAppStore } from '../lib/store';
-import { clearToken } from '../lib/api';
+import { useAppStore, useCanSwitchStore } from '../lib/store';
+import { clearToken, fetchStores } from '../lib/api';
 
 const { Aside, Content, Header } = Layout;
 const { MenuItem, MenuGroup } = Menu;
@@ -31,7 +32,24 @@ export function ShellLayout({ children }: { children: ReactNode }) {
   const sidebarOpen = useAppStore((state) => state.sidebarOpen);
   const setSidebarOpen = useAppStore((state) => state.setSidebarOpen);
   const user = useAppStore((state) => state.user);
+  const currentStore = useAppStore((state) => state.currentStore);
+  const setCurrentStore = useAppStore((state) => state.setCurrentStore);
+  const canSwitchStore = useCanSwitchStore();
   const [hoverOpen, setHoverOpen] = useState(false);
+  const [stores, setStores] = useState<Array<{ id: string; name: string }>>([]);
+
+  useEffect(() => {
+    fetchStores()
+      .then((list) => setStores(Array.isArray(list) ? list : []))
+      .catch(() => {});
+  }, []);
+
+  // admin/buyer 未选择门店时默认第一个
+  useEffect(() => {
+    if (!currentStore && canSwitchStore && stores.length > 0 && !user?.storeId) {
+      setCurrentStore({ id: stores[0].id, name: stores[0].name });
+    }
+  }, [currentStore, canSwitchStore, stores, user, setCurrentStore]);
 
   const isExpanded = sidebarOpen || hoverOpen;
   const sidebarWidth = isExpanded ? 240 : 64;
@@ -203,6 +221,42 @@ export function ShellLayout({ children }: { children: ReactNode }) {
             />
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            {canSwitchStore ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <ShopIcon style={{ color: 'var(--td-text-color-secondary)' }} />
+                <Select
+                  value={currentStore?.id || ''}
+                  onChange={(value) => {
+                    const store = stores.find((s) => s.id === value);
+                    if (store) setCurrentStore({ id: store.id, name: store.name });
+                  }}
+                  placeholder="选择门店"
+                  clearable={false}
+                  style={{ width: 180 }}
+                  options={stores.map((s) => ({ value: s.id, label: s.name }))}
+                />
+              </div>
+            ) : (
+              currentStore && (
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    fontSize: 13,
+                    color: 'var(--td-text-color-secondary)',
+                    padding: '4px 10px',
+                    border: '1px solid var(--td-component-border)',
+                    borderRadius: 6,
+                  }}
+                >
+                  <ShopIcon style={{ fontSize: 14 }} />
+                  {currentStore.name}
+                </span>
+              )
+            )}
+          </div>
         </Header>
 
         <Content style={{ padding: '16px 24px 24px', overflow: 'auto' }}>

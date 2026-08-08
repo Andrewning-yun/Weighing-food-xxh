@@ -1,6 +1,6 @@
 .screen.tasks-screen {
   min-height: 100vh;
-  padding: 24px 22px 108px;
+  padding: 24px 22px 48px;
   background: #fff8ef;
   color: #34251c;
 }
@@ -12,7 +12,7 @@
 .tasks-loading,
 .tasks-card,
 .tasks-footer {
-  border-radius: 18px;
+  border-radius: 20px;
   background: #fff;
   box-shadow: 0 8px 24px rgba(106, 68, 29, 0.06);
 }
@@ -33,7 +33,7 @@
 
 .tasks-title {
   display: block;
-  font-size: 44px;
+  font-size: 40px;
   font-weight: 700;
   line-height: 1.1;
 }
@@ -67,14 +67,14 @@
 
 .tasks-kpi-card {
   padding: 16px 14px;
-  border-radius: 18px;
+  border-radius: 20px;
   background: #fff;
   text-align: center;
 }
 
 .tasks-kpi-value {
   display: block;
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 700;
 }
 
@@ -139,7 +139,7 @@
   min-width: 92px;
   margin-right: 12px;
   padding: 14px 10px;
-  border-radius: 18px;
+  border-radius: 20px;
   background: rgba(255, 255, 255, 0.72);
 }
 

@@ -10,14 +10,13 @@ import Space from 'tdesign-react/es/space';
 import {
   fetchDefaultDishes,
   fetchDishes,
-  fetchStores,
   saveDefaultDishes,
   type DefaultDishRecord,
   type DishRecord,
   type MealTypeValue,
-  type StoreRecord,
   type WeekdayValue,
 } from '../lib/api';
+import { useStoreContext } from '../lib/store';
 import { toast } from '../lib/toast';
 
 const MEAL_OPTIONS: Array<{ value: MealTypeValue; label: string }> = [
@@ -36,10 +35,9 @@ function getWeekdayLabel(value: WeekdayValue) {
 }
 
 export function DefaultDishesPage() {
-  const { data: stores = [] } = useSWR('defaultdish-stores', fetchStores);
   const { data: dishes = [] } = useSWR('defaultdish-dishes', fetchDishes);
 
-  const [queryStoreId, setQueryStoreId] = useState('');
+  const { storeId: queryStoreId, storeName } = useStoreContext();
   const [queryMealType, setQueryMealType] = useState<MealTypeValue>('breakfast');
   const [queryDayOfWeek, setQueryDayOfWeek] = useState<WeekdayValue>(1);
   const [records, setRecords] = useState<DefaultDishRecord[]>([]);
@@ -53,16 +51,6 @@ export function DefaultDishesPage() {
       onSuccess: (data) => setRecords(data),
       onError: (err) => toast.error(err instanceof Error ? err.message : '加载默认菜品失败'),
     },
-  );
-
-  // Set initial store
-  if (!queryStoreId && stores.length > 0) {
-    setQueryStoreId(stores[0].id);
-  }
-
-  const currentStore = useMemo(
-    () => stores.find((store) => store.id === queryStoreId) || null,
-    [queryStoreId, stores],
   );
 
   const filteredDishes = useMemo(() => {
@@ -102,17 +90,11 @@ export function DefaultDishesPage() {
     setRecords((current) => current.filter((item) => item.dishId !== dishId));
   }
 
-  const storeOptions = stores.map((store) => ({ value: store.id, label: store.name }));
-
   return (
     <div className="page-stack">
       <Card title="默认菜品" subtitle="管理各门店和餐段的每日固定菜品。"
         actions={<Button theme="primary" onClick={handleSave} loading={saving} disabled={!queryStoreId}>保存白名单</Button>} bordered>
         <div className="grid-form">
-          <label>
-            <span>门店</span>
-            <Select value={queryStoreId} onChange={(v) => setQueryStoreId(v as string)} options={storeOptions} placeholder="选择门店" clearable={false} />
-          </label>
           <label>
             <span>餐段</span>
             <Select value={queryMealType} onChange={(v) => setQueryMealType(v as MealTypeValue)} options={MEAL_OPTIONS} clearable={false} />
@@ -123,7 +105,7 @@ export function DefaultDishesPage() {
           </label>
           <label>
             <span>门店名称</span>
-            <Input value={currentStore?.name || ''} readonly />
+            <Input value={storeName} readonly />
           </label>
         </div>
 
@@ -181,7 +163,7 @@ export function DefaultDishesPage() {
                 <div><span className="detail-label">餐段</span><strong>{record.mealType}</strong></div>
                 <div><span className="detail-label">星期</span><strong>{getWeekdayLabel(queryDayOfWeek)}</strong></div>
                 <div><span className="detail-label">菜品ID</span><strong>{record.dishId}</strong></div>
-                <div><span className="detail-label">门店</span><strong>{currentStore?.name || record.storeId}</strong></div>
+                <div><span className="detail-label">门店</span><strong>{storeName || record.storeId}</strong></div>
               </div>
             </div>
           ))}

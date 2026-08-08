@@ -6,7 +6,6 @@ import DatePickerPopup from '../../components/DatePickerPopup';
 import MenuActionBar from '../../components/MenuActionBar';
 import PopupPanel from '../../components/PopupPanel';
 import ScoreFab from '../../components/ScoreFab';
-import TabBar from '../../components/TabBar';
 import { fetchRecommendations, type RecommendationDish } from '../../api/costing';
 import { fetchDishes, type DishSummary } from '../../api/dish';
 import {
@@ -695,7 +694,6 @@ export default function MenuPlanPage() {
       </PopupPanel>
 
       <ScoreFab scoreSummary={scoreSummary} pairingGaps={pairingGaps} />
-      <TabBar current='menu-plan' />
     </View>
   );
 }

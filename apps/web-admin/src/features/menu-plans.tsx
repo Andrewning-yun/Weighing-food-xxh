@@ -8,9 +8,10 @@ import Select from 'tdesign-react/es/select';
 import Table from 'tdesign-react/es/table';
 import Tag from 'tdesign-react/es/tag';
 import Space from 'tdesign-react/es/space';
-import { fetchDishes, fetchStores, type DishRecord } from '../lib/api';
+import { fetchDishes, type DishRecord } from '../lib/api';
 import { toast } from '../lib/toast';
 import { formatDateTime } from '../lib/format';
+import { useStoreContext } from '../lib/store';
 import {
   Station,
   WEB_ADMIN_DEFAULT_API_BASE_URL,
@@ -226,9 +227,8 @@ async function deleteSupplementaryOrder(id: string): Promise<{ id: string }> {
 }
 
 export function MenuPlansPage() {
-  const { data: stores = [] } = useSWR('menuplan-stores', fetchStores);
   const { data: dishes = [] } = useSWR('menuplan-dishes', fetchDishes);
-  const [queryStoreId, setQueryStoreId] = useState('');
+  const { storeId: queryStoreId, storeName } = useStoreContext();
   const [queryDate, setQueryDate] = useState(today());
   const [mealType, setMealType] = useState<MealType>('breakfast');
   const [draft, setDraft] = useState<MenuPlanDraft>(createEmptyDraft('', today(), 'breakfast'));
@@ -239,11 +239,6 @@ export function MenuPlansPage() {
   const [stationFilter, setStationFilter] = useState('');
   const [supplementOrders, setSupplementOrders] = useState<SupplementaryOrderRecord[]>([]);
   const [supplementLoading, setSupplementLoading] = useState(false);
-
-  // Set initial store
-  if (!queryStoreId && stores.length > 0) {
-    setQueryStoreId(stores[0].id);
-  }
 
   const { data: plans = [], isLoading: loadingPlans, mutate } = useSWR(
     queryStoreId ? ['menu-plans', queryStoreId, queryDate] : null,
@@ -361,9 +356,6 @@ export function MenuPlansPage() {
     }
   }
 
-  const storeOptions = stores.map((s) => ({ value: s.id, label: s.name }));
-  const storeSelectValue = queryStoreId || undefined;
-
   return (
     <div className="page-stack">
       <Card title="菜单计划管理" subtitle="构建早餐和正餐计划，然后发布到门店。"
@@ -380,10 +372,6 @@ export function MenuPlansPage() {
 
         <div className="grid-form">
           <label>
-            <span className="detail-label">门店</span>
-            <Select value={storeSelectValue} onChange={(v) => { setQueryStoreId(v as string); }} options={storeOptions} placeholder="选择门店" clearable={false} />
-          </label>
-          <label>
             <span className="detail-label">日期</span>
             <input type="date" value={queryDate} onChange={(e) => { setQueryDate(e.target.value); }} style={{ width: '100%', borderRadius: 'var(--td-radius-default, 6px)', border: '1px solid var(--td-component-border)', padding: '5px 8px', height: 32, fontSize: '0.9rem', background: 'var(--td-bg-color-container)' }} />
           </label>
@@ -398,7 +386,7 @@ export function MenuPlansPage() {
         </div>
 
         <div className="detail-grid">
-          <div><span className="detail-label">门店</span><strong>{stores.find((s) => s.id === queryStoreId)?.name || draft.storeId || '未选择'}</strong></div>
+          <div><span className="detail-label">门店</span><strong>{storeName || draft.storeId || '未选择'}</strong></div>
           <div><span className="detail-label">日期</span><strong>{draft.date}</strong></div>
           <div><span className="detail-label">餐段</span><strong>{MEAL_TYPE_OPTIONS.find((i) => i.value === draft.mealType)?.label}</strong></div>
           <div><span className="detail-label">已选菜品</span><strong>{selectedDishCount}</strong></div>

@@ -2,7 +2,6 @@ import { ScrollView, Text, View } from '@tarojs/components';
 import { Button as NutButton } from '@nutui/nutui-react-taro';
 import Taro from '@tarojs/taro';
 import { useEffect, useMemo, useState } from 'react';
-import TabBar from '../../components/TabBar';
 import { fetchTasks, generateTasksFromMenu, updateTask, type Task } from '../../api/task';
 import { formatRoleLabel, getActiveStoreId, getSessionUser, hasSession } from '../../utils/session';
 import { canAccessPage, isReadOnly } from '../../utils/role-guard';
@@ -359,8 +358,6 @@ export default function TasksPage() {
           })}
         </View>
       ) : null}
-
-      <TabBar current='tasks' />
     </View>
   );
 }

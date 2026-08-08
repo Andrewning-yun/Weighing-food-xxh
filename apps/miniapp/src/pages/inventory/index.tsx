@@ -318,16 +318,16 @@ export default function InventoryPage() {
       ) : null}
 
       <View className='inv-tab-bar'>
-        <View className='inv-bar-item' onClick={() => Taro.reLaunch({ url: '/pages/index/index' })}>
+        <View className='inv-bar-item' onClick={() => Taro.switchTab({ url: '/pages/index/index' })}>
           <Text className='inv-bar-label'>首页</Text>
         </View>
-        <View className='inv-bar-item' onClick={() => Taro.navigateTo({ url: '/pages/menu-plan/index' })}>
+        <View className='inv-bar-item' onClick={() => Taro.switchTab({ url: '/pages/menu-plan/index' })}>
           <Text className='inv-bar-label'>菜单</Text>
         </View>
         <View className='inv-bar-item inv-bar-active'>
           <Text className='inv-bar-label'>库存</Text>
         </View>
-        <View className='inv-bar-item' onClick={() => Taro.reLaunch({ url: '/pages/my/index' })}>
+        <View className='inv-bar-item' onClick={() => Taro.switchTab({ url: '/pages/my/index' })}>
           <Text className='inv-bar-label'>我的</Text>
         </View>
       </View>

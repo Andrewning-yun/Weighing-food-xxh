@@ -10,7 +10,6 @@ import Select from 'tdesign-react/es/select';
 import Tag from 'tdesign-react/es/tag';
 import {
   fetchDailyMetrics,
-  fetchStores,
   saveDailyMetric,
   type DailyMetricDraft,
   type DailyMetricRecord,
@@ -19,6 +18,7 @@ import {
 import { DataTable, type Column, FormField, DateInput, StatCard } from '../components';
 import { ErrorBoundary } from '../components/error-boundary';
 import { toast } from '../lib/toast';
+import { useStoreContext } from '../lib/store';
 
 const MEAL_OPTIONS: Array<{ value: MealTypeValue; label: string }> = [
   { value: 'breakfast', label: '早餐' },
@@ -211,24 +211,18 @@ function DailyMetricsForm({
 }
 
 export function DailyMetricsPage() {
-  const { data: stores = [], error: storesError } = useSWR(
-    'metrics-stores',
-    fetchStores,
-  );
-  const [queryStoreId, setQueryStoreId] = useState('');
+  const { storeId: queryStoreId, storeName } = useStoreContext();
   const [queryDate, setQueryDate] = useState('');
   const [queryMealType, setQueryMealType] = useState<'' | MealTypeValue>('');
   const [draft, setDraft] = useState<DailyMetricDraft>(createEmptyDraft(''));
   const [saving, setSaving] = useState(false);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
-  // Initialize store selection when stores load
+  // Initialize draft when store changes
   useEffect(() => {
-    if (!queryStoreId && stores.length > 0) {
-      setQueryStoreId(stores[0].id);
-      setDraft(createEmptyDraft(stores[0].id));
-    }
-  }, [stores, queryStoreId]);
+    if (!queryStoreId) return;
+    setDraft(createEmptyDraft(queryStoreId));
+  }, [queryStoreId]);
 
   const {
     data: items = [],
@@ -247,14 +241,9 @@ export function DailyMetricsPage() {
       }),
   );
 
-  const combinedError =
-    storesError || metricsError
-      ? new Error(
-          storesError
-            ? '加载门店数据失败'
-            : '加载经营数据失败',
-        )
-      : null;
+  const combinedError = metricsError
+    ? new Error('加载经营数据失败')
+    : null;
 
   const handleSave = useCallback(async () => {
     const errors = validateDraft(draft);
@@ -299,8 +288,8 @@ export function DailyMetricsPage() {
   }, []);
 
   const storeOptions = useMemo(
-    () => stores.map((s) => ({ value: s.id, label: s.name })),
-    [stores],
+    () => [{ value: queryStoreId, label: storeName }],
+    [queryStoreId, storeName],
   );
   const weatherOptions = useMemo(
     () => WEATHER_OPTIONS.map((w) => ({ value: w, label: w })),
@@ -389,18 +378,6 @@ export function DailyMetricsPage() {
           bordered
         >
           <div className="grid-form">
-            <FormField label="门店">
-              <Select
-                value={queryStoreId}
-                onChange={(v) => {
-                  setQueryStoreId(v as string);
-                  setFormErrors({});
-                }}
-                options={storeOptions}
-                placeholder="请选择门店"
-                clearable={false}
-              />
-            </FormField>
             <FormField label="日期">
               <DateInput
                 value={queryDate}

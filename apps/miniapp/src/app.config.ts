@@ -21,6 +21,18 @@ export default {
     'pages/menu-standard/index',
     'pages/dishes-detail/index',
   ],
+  tabBar: {
+    color: '#8a6f5d',
+    selectedColor: '#E8530E',
+    backgroundColor: '#ffffff',
+    borderStyle: 'white',
+    list: [
+      { pagePath: 'pages/index/index', text: '首页' },
+      { pagePath: 'pages/menu-plan/index', text: '菜单' },
+      { pagePath: 'pages/tasks/index', text: '任务' },
+      { pagePath: 'pages/my/index', text: '我的' },
+    ],
+  },
   window: {
     navigationBarTitleText: '快餐厨房',
     navigationBarBackgroundColor: '#fff8ef',

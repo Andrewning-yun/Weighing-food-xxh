@@ -26,11 +26,18 @@ function redirectHome() {
 }
 
 async function getWechatCode() {
-  const result = await Taro.login();
-  if (!result.code) {
-    throw new Error('微信登录失败，请稍后再试');
+  try {
+    const result = await Taro.login();
+    if (!result.code) {
+      throw new Error('未获取到微信凭证');
+    }
+    return result.code;
+  } catch (error) {
+    if (error instanceof Error && /login:fail|timeout|operateWXData|SystemError/i.test(error.message)) {
+      throw new Error('游客模式/测试号下微信登录不可用，请使用账号登录');
+    }
+    throw error;
   }
-  return result.code;
 }
 
 export default function LoginPage() {

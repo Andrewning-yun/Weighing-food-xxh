@@ -1,8 +1,36 @@
 page {
   min-height: 100%;
-  background: var(--nut-page-bg, #f6efe4);
-  color: var(--nut-text-color, #2D2D2D);
+  background: var(--nut-page-bg, #f6f3ef);
+  color: var(--nut-text-color, #2d2d2d);
   font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+
+  /* ===== 全局设计变量（视觉细节统一）===== */
+  /* 圆角阶梯：大卡 24 / 卡片 20 / 小组件 16 / 胶囊 999 */
+  --ffk-radius-lg: 24px;
+  --ffk-radius-md: 20px;
+  --ffk-radius-sm: 16px;
+  --ffk-radius-pill: 999px;
+
+  /* 字号阶梯：大标题 40 / 区块 30 / 正文 26 / 次要 24 / 辅助 22 */
+  --ffk-text-display: 40px;
+  --ffk-text-title: 30px;
+  --ffk-text-body: 26px;
+  --ffk-text-secondary: 24px;
+  --ffk-text-caption: 22px;
+
+  /* 色彩 */
+  --ffk-bg: #f6f3ef;
+  --ffk-card: #ffffff;
+  --ffk-primary: #e8530e;
+  --ffk-primary-grad: linear-gradient(135deg, #e8530e, #d9480f);
+  --ffk-text-main: #112133;
+  --ffk-text-secondary: #6b6b6b;
+  --ffk-text-muted: #94a3b8;
+  --ffk-line: #f0ece7;
+
+  /* 阴影两级 */
+  --ffk-shadow-card: 0 8px 24px rgba(17, 33, 51, 0.06);
+  --ffk-shadow-float: 0 18px 36px rgba(17, 33, 51, 0.1);
 }
 
 view,
@@ -15,12 +43,13 @@ input {
 .screen {
   min-height: 100vh;
   padding: 28px 24px 40px;
+  background: var(--ffk-bg, #f6f3ef);
 }
 
 .shell-card {
-  border-radius: 28px;
-  background: var(--nut-white, #FFFFFF);
-  box-shadow: 0 28px 72px rgba(17, 33, 51, 0.12);
+  border-radius: var(--ffk-radius-lg, 24px);
+  background: var(--nut-white, #ffffff);
+  box-shadow: var(--ffk-shadow-card, 0 8px 24px rgba(17, 33, 51, 0.06));
 }
 
 .eyebrow {

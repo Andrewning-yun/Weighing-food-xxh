@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import Card from 'tdesign-react/es/card';
 import Button from 'tdesign-react/es/button';
@@ -8,7 +8,6 @@ import Select from 'tdesign-react/es/select';
 import Tag from 'tdesign-react/es/tag';
 import {
   fetchMenuPairingRules,
-  fetchStores,
   saveMenuPairingRules,
   type MealTypeValue,
   type MenuPairingRuleDraft,
@@ -16,6 +15,7 @@ import {
 } from '../lib/api';
 import { DataTable, type Column } from '../components/data-table';
 import { toast } from '../lib/toast';
+import { useStoreContext } from '../lib/store';
 
 const MEAL_OPTIONS: Array<{ value: MealTypeValue; label: string }> = [
   { value: 'breakfast', label: '早餐' },
@@ -47,8 +47,7 @@ const COLUMNS: Column<MenuPairingRuleRecord>[] = [
 ];
 
 export function MenuPairingRulesPage() {
-  const { data: stores = [] } = useSWR('pairing-stores', fetchStores);
-  const [queryStoreId, setQueryStoreId] = useState('');
+  const { storeId: queryStoreId, storeName } = useStoreContext();
   const [queryMealType, setQueryMealType] = useState<MealTypeValue>('breakfast');
   const [drafts, setDrafts] = useState<MenuPairingRuleDraft[]>(createDefaultDraft('', 'breakfast'));
   const [saving, setSaving] = useState(false);
@@ -76,20 +75,11 @@ export function MenuPairingRulesPage() {
     },
   );
 
-  // Set initial store on first load
-  const storeInit = useMemo(() => {
-    if (!queryStoreId && stores.length > 0) {
-      setQueryStoreId(stores[0].id);
-      setDrafts(createDefaultDraft(stores[0].id, queryMealType));
-    }
-    return null;
-  }, [stores, queryStoreId, queryMealType]);
-  void storeInit; // suppress unused var
-
-  const currentStore = useMemo(
-    () => stores.find((store) => store.id === queryStoreId) || null,
-    [queryStoreId, stores],
-  );
+  useEffect(() => {
+    if (!queryStoreId) return;
+    setDrafts(createDefaultDraft(queryStoreId, queryMealType));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queryStoreId]);
 
   async function handleSave() {
     setSaving(true);
@@ -112,24 +102,18 @@ export function MenuPairingRulesPage() {
     }
   }
 
-  const storeOptions = stores.map((s) => ({ value: s.id, label: s.name }));
-
   return (
     <div className="page-stack">
       <Card title="搭配规则" subtitle="设置大荤/小荤/素菜的最少与最多数量。"
         actions={<Button theme="primary" onClick={handleSave} loading={saving} disabled={!queryStoreId}>保存搭配规则</Button>} bordered>
         <div className="grid-form">
           <label>
-            <span className="detail-label">门店</span>
-            <Select value={queryStoreId || undefined} onChange={(v) => setQueryStoreId(v as string)} options={storeOptions} placeholder="选择门店" clearable={false} />
-          </label>
-          <label>
             <span className="detail-label">餐段</span>
             <Select value={queryMealType} onChange={(v) => setQueryMealType(v as MealTypeValue)} options={MEAL_OPTIONS} clearable={false} />
           </label>
           <label>
             <span className="detail-label">门店名称</span>
-            <Input value={currentStore?.name || ''} readonly />
+            <Input value={storeName || queryStoreId || '未选择'} readonly />
           </label>
           <label>
             <span className="detail-label">规则数</span>

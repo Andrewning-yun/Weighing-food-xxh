@@ -1,15 +1,14 @@
 import { useMemo, useState } from 'react';
 import useSWR from 'swr';
 import Card from 'tdesign-react/es/card';
-import Select from 'tdesign-react/es/select';
 import Table from 'tdesign-react/es/table';
 import Tag from 'tdesign-react/es/tag';
 import {
-  fetchStores,
   listInventories,
   type InventoryItem,
   type InventoryRecord,
 } from '../lib/api';
+import { useStoreContext } from '../lib/store';
 
 function today() {
   return new Date().toISOString().slice(0, 10);
@@ -24,14 +23,8 @@ function getItemCategory(item: InventoryItem) {
 }
 
 export function InventoryPage() {
-  const { data: stores = [] } = useSWR('inventory-stores', fetchStores);
-  const [queryStoreId, setQueryStoreId] = useState('');
+  const { storeId: queryStoreId, storeName } = useStoreContext();
   const [queryDate, setQueryDate] = useState(today());
-
-  // Set initial store
-  if (!queryStoreId && stores.length > 0) {
-    setQueryStoreId(stores[0].id);
-  }
 
   const { data: inventory, isLoading } = useSWR(
     queryStoreId ? ['inventory', queryStoreId, queryDate] : null,
@@ -58,20 +51,12 @@ export function InventoryPage() {
     [inventory],
   );
 
-  const activeStore = stores.find((store) => store.id === queryStoreId) || null;
-
-  const storeOptions = stores.map((store) => ({ value: store.id, label: store.name }));
-
   return (
     <div className="page-stack">
       <Card title="库存查看" subtitle="按门店和日期查看每日库存快照。"
         actions={<Tag theme="default">{inventory?.items?.length || 0} 项</Tag>} bordered>
 
         <div className="grid-form">
-          <label>
-            <span>门店</span>
-            <Select value={queryStoreId} onChange={(v) => setQueryStoreId(v as string)} options={storeOptions} placeholder="选择门店" clearable={false} />
-          </label>
           <label>
             <span>日期</span>
             <input type="date" value={queryDate} onChange={(event) => setQueryDate(event.target.value)}
@@ -82,7 +67,7 @@ export function InventoryPage() {
         <div className="detail-grid">
           <div>
             <span className="detail-label">门店</span>
-            <strong>{activeStore?.name || queryStoreId || '未选择'}</strong>
+            <strong>{storeName || queryStoreId || '未选择'}</strong>
           </div>
           <div>
             <span className="detail-label">提交日期</span>

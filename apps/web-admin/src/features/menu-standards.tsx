@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import useSWR from 'swr';
 import Card from 'tdesign-react/es/card';
 import Button from 'tdesign-react/es/button';
@@ -8,7 +8,6 @@ import Select from 'tdesign-react/es/select';
 import Tag from 'tdesign-react/es/tag';
 import {
   fetchMenuStandards,
-  fetchStores,
   saveMenuStandards,
   type MealTypeValue,
   type MenuStandardDraft,
@@ -16,6 +15,7 @@ import {
 } from '../lib/api';
 import { DataTable, type Column } from '../components/data-table';
 import { toast } from '../lib/toast';
+import { useStoreContext } from '../lib/store';
 
 const MEAL_OPTIONS: Array<{ value: MealTypeValue; label: string }> = [
   { value: 'breakfast', label: '早餐' },
@@ -40,8 +40,7 @@ const COLUMNS: Column<MenuStandardRecord>[] = [
 ];
 
 export function MenuStandardsPage() {
-  const { data: stores = [] } = useSWR('standards-stores', fetchStores);
-  const [queryStoreId, setQueryStoreId] = useState('');
+  const { storeId: queryStoreId, storeName } = useStoreContext();
   const [queryMealType, setQueryMealType] = useState<MealTypeValue>('breakfast');
   const [drafts, setDrafts] = useState<MenuStandardDraft[]>(createDefaultDraft('', 'breakfast'));
   const [saving, setSaving] = useState(false);
@@ -68,16 +67,11 @@ export function MenuStandardsPage() {
     },
   );
 
-  // Set initial store on first load
-  if (!queryStoreId && stores.length > 0) {
-    setQueryStoreId(stores[0].id);
-    setDrafts(createDefaultDraft(stores[0].id, queryMealType));
-  }
-
-  const currentStore = useMemo(
-    () => stores.find((store) => store.id === queryStoreId) || null,
-    [queryStoreId, stores],
-  );
+  useEffect(() => {
+    if (!queryStoreId) return;
+    setDrafts(createDefaultDraft(queryStoreId, queryMealType));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queryStoreId]);
 
   const recordsWithKey = useMemo(
     () => records.map((r) => ({ ...r, _key: `${r.storeId}-${r.mealType}-${r.categoryName}` })),
@@ -104,24 +98,18 @@ export function MenuStandardsPage() {
     }
   }
 
-  const storeOptions = stores.map((store) => ({ value: store.id, label: store.name }));
-
   return (
     <div className="page-stack">
       <Card title="菜单标准" subtitle="按分类配置所需菜品数量。"
         actions={<Button theme="primary" onClick={handleSave} loading={saving} disabled={!queryStoreId}>保存标准</Button>} bordered>
         <div className="grid-form">
           <label>
-            <span>门店</span>
-            <Select value={queryStoreId} onChange={(v) => setQueryStoreId(v as string)} options={storeOptions} placeholder="选择门店" clearable={false} />
-          </label>
-          <label>
             <span>餐段</span>
             <Select value={queryMealType} onChange={(v) => setQueryMealType(v as MealTypeValue)} options={MEAL_OPTIONS} clearable={false} />
           </label>
           <label>
             <span>门店名称</span>
-            <Input value={currentStore?.name || ''} readonly />
+            <Input value={storeName || queryStoreId || '未选择'} readonly />
           </label>
           <label>
             <span>规则数</span>

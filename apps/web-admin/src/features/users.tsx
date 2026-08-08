@@ -16,6 +16,7 @@ import { DataTable, type Column } from '../components/data-table';
 import { showDeleteConfirm } from '../components/delete-confirm-dialog';
 import { toast } from '../lib/toast';
 import { formatDateTime } from '../lib/format';
+import { useStoreContext } from '../lib/store';
 
 type UserRole =
   | 'admin' | 'chef_manager' | 'chef' | 'prep'
@@ -148,12 +149,11 @@ function getRoleLabel(role: UserRole) {
   return ROLE_OPTIONS.find((o) => o.value === role)?.label || role;
 }
 
-const COLUMNS: Column<UserRecord>[] = [
+const BASE_COLUMNS: Column<UserRecord>[] = [
   { colKey: 'username', title: '用户名', searchable: true },
   { colKey: 'name', title: '姓名', searchable: true },
   { colKey: 'role', title: '角色', cell: ({ row }) => getRoleLabel(row.role) },
-  { colKey: 'station', title: '工位', cell: ({ row }) => STATION_OPTIONS.find((o) => o.value === row.station)?.label || row.station || '-' },
-  { colKey: 'storeName', title: '门店', cell: ({ row }) => row.storeName || row.storeId || '-' },
+  { colKey: 'storeName', title: '所属门店', cell: ({ row }) => row.storeName || '-' },
   { colKey: 'wechatOpenId', title: '微信OpenID', cell: ({ row }) => row.wechatOpenId || '-' },
   { colKey: 'updatedAt', title: '更新时间', cell: ({ row }) => formatDateTime(row.updatedAt) },
 ];
@@ -161,17 +161,39 @@ const COLUMNS: Column<UserRecord>[] = [
 export function UsersPage() {
   const { data: rawUsers = [], isLoading, mutate } = useSWR('users', fetchUsers);
   const { data: stores = [] } = useSWR('users-stores', fetchStores);
+  const { storeId, storeName } = useStoreContext();
+  const [filterRole, setFilterRole] = useState('');
 
   const items = useMemo(() => rawUsers.map(normalizeUserRecord), [rawUsers]);
   const storeNameById = useMemo(() => new Map(stores.map((s) => [s.id, s.name])), [stores]);
+
+  const filteredItems = useMemo(() => {
+    return items.filter((item) => {
+      if (storeId && item.storeId !== storeId) return false;
+      if (filterRole && item.role !== filterRole) return false;
+      return true;
+    });
+  }, [items, storeId, filterRole]);
+
   const storeOptions = stores.map((s) => ({ value: s.id, label: s.name }));
+
+  const columns = useMemo<Column<UserRecord>[]>(() => {
+    const withStoreName = BASE_COLUMNS.map((col) => {
+      if (col.colKey !== 'storeName') return col;
+      return {
+        ...col,
+        cell: ({ row }: { row: UserRecord }) => storeNameById.get(row.storeId || '') || row.storeName || '-',
+      };
+    });
+    return withStoreName;
+  }, [storeNameById]);
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [draft, setDraft] = useState<UserDraft>(EMPTY_USER);
   const [saving, setSaving] = useState(false);
 
   function openCreate() {
-    setDraft(EMPTY_USER);
+    setDraft({ ...EMPTY_USER, storeId: storeId || '' });
     setDialogOpen(true);
   }
 
@@ -218,22 +240,60 @@ export function UsersPage() {
   );
 
   const allColumns: Column<UserRecord>[] = [
-    ...COLUMNS,
+    ...columns,
     { colKey: 'action', title: '操作', width: 160, cell: actionCell },
   ];
 
   return (
     <div className="page-stack">
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem' }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '1rem',
+          gap: '12px',
+          flexWrap: 'wrap',
+        }}
+      >
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              fontSize: 13,
+              color: 'var(--td-text-color-secondary)',
+              padding: '4px 10px',
+              border: '1px solid var(--td-component-border)',
+              borderRadius: 6,
+            }}
+          >
+            当前门店：{storeName || storeId || '-'}
+          </span>
+          <div style={{ width: 160 }}>
+            <Select
+              value={filterRole}
+              onChange={(value) => setFilterRole(String(value || ''))}
+              placeholder="按角色筛选"
+              clearable
+              options={ROLE_OPTIONS}
+            />
+          </div>
+          {filterRole && (
+            <Button variant="text" onClick={() => setFilterRole('')}>
+              清除筛选
+            </Button>
+          )}
+        </div>
         <Button theme="primary" onClick={openCreate}>新建用户</Button>
       </div>
 
       <DataTable<UserRecord>
         columns={allColumns}
-        data={items}
+        data={filteredItems}
         loading={isLoading}
         rowKey="id"
-        searchPlaceholder="搜索用户名、姓名、角色..."
+        searchPlaceholder="搜索用户名、姓名..."
         emptyText="暂无用户数据"
         emptyDescription={'点击"新建用户"按钮添加用户'}
         pageSize={15}

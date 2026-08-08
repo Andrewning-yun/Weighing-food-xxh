@@ -1,17 +1,16 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import useSWR from 'swr';
 import Card from 'tdesign-react/es/card';
 import Button from 'tdesign-react/es/button';
 import Input from 'tdesign-react/es/input';
 import InputNumber from 'tdesign-react/es/input-number';
-import Select from 'tdesign-react/es/select';
 import {
   DEFAULT_ALGORITHM_CONFIG,
   fetchAlgorithmConfig,
-  fetchStores,
   saveAlgorithmConfig,
   type AlgorithmConfigState,
 } from '../lib/api';
+import { useStoreContext } from '../lib/store';
 import { toast } from '../lib/toast';
 
 function cloneConfig(config: AlgorithmConfigState): AlgorithmConfigState {
@@ -19,15 +18,9 @@ function cloneConfig(config: AlgorithmConfigState): AlgorithmConfigState {
 }
 
 export function AlgorithmConfigPage() {
-  const { data: stores = [] } = useSWR('algo-stores', fetchStores);
-  const [queryStoreId, setQueryStoreId] = useState('');
+  const { storeId: queryStoreId, storeName } = useStoreContext();
   const [config, setConfig] = useState<AlgorithmConfigState>(cloneConfig(DEFAULT_ALGORITHM_CONFIG));
   const [saving, setSaving] = useState(false);
-
-  // Set initial store
-  if (!queryStoreId && stores.length > 0) {
-    setQueryStoreId(stores[0].id);
-  }
 
   const { isLoading } = useSWR(
     queryStoreId ? ['algorithm-config', queryStoreId] : null,
@@ -39,11 +32,6 @@ export function AlgorithmConfigPage() {
         toast.error(err instanceof Error ? err.message : '加载算法参数失败');
       },
     },
-  );
-
-  const currentStore = useMemo(
-    () => stores.find((store) => store.id === queryStoreId) || null,
-    [queryStoreId, stores],
   );
 
   async function handleSave() {
@@ -63,8 +51,6 @@ export function AlgorithmConfigPage() {
     }
   }
 
-  const storeOptions = stores.map((s) => ({ value: s.id, label: s.name }));
-
   return (
     <div className="page-stack">
       <Card title="算法参数" subtitle="以结构化方式编辑推荐系统参数。"
@@ -73,12 +59,8 @@ export function AlgorithmConfigPage() {
 
         <div className="grid-form">
           <label>
-            <span className="detail-label">门店</span>
-            <Select value={queryStoreId || undefined} onChange={(v) => setQueryStoreId(v as string)} options={storeOptions} placeholder="请选择门店" clearable={false} />
-          </label>
-          <label>
             <span className="detail-label">门店名称</span>
-            <Input value={currentStore?.name || ''} readonly />
+            <Input value={storeName} readonly />
           </label>
         </div>
       </Card>
