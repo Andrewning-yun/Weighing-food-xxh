@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import useSWR from 'swr';
 import Button from 'tdesign-react/es/button';
 import Input from 'tdesign-react/es/input';
@@ -7,6 +7,7 @@ import Select from 'tdesign-react/es/select';
 import Textarea from 'tdesign-react/es/textarea';
 import Dialog from 'tdesign-react/es/dialog';
 import Space from 'tdesign-react/es/space';
+import { AddIcon } from 'tdesign-icons-react';
 import {
   fetchIngredients,
   removeIngredient,
@@ -89,6 +90,27 @@ export function IngredientsPage() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [draft, setDraft] = useState<IngredientDraft>(EMPTY_INGREDIENT);
   const [saving, setSaving] = useState(false);
+  const [filterCategory, setFilterCategory] = useState('');
+  const [filterType, setFilterType] = useState('');
+  const [filterPerishable, setFilterPerishable] = useState('');
+
+  const filteredItems = useMemo(() => {
+    return items.filter((item) => {
+      if (filterCategory && item.category !== filterCategory) return false;
+      if (filterType && item.type !== filterType) return false;
+      if (filterPerishable === 'yes' && !item.perishable) return false;
+      if (filterPerishable === 'no' && item.perishable) return false;
+      return true;
+    });
+  }, [items, filterCategory, filterType, filterPerishable]);
+
+  const hasFilter = Boolean(filterCategory || filterType || filterPerishable);
+
+  function clearFilters() {
+    setFilterCategory('');
+    setFilterType('');
+    setFilterPerishable('');
+  }
 
   function openCreate() {
     setDraft(EMPTY_INGREDIENT);
@@ -140,18 +162,69 @@ export function IngredientsPage() {
 
   return (
     <div className="page-stack">
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem' }}>
-        <Button theme="primary" onClick={openCreate}>新建食材</Button>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '1rem',
+          gap: '12px',
+          flexWrap: 'wrap',
+        }}
+      >
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+          <div style={{ width: 160 }}>
+            <Select
+              value={filterCategory}
+              onChange={(value) => setFilterCategory(String(value || ''))}
+              placeholder="按分类筛选"
+              clearable
+              options={[...CATEGORY_OPTIONS]}
+            />
+          </div>
+          <div style={{ width: 140 }}>
+            <Select
+              value={filterType}
+              onChange={(value) => setFilterType(String(value || ''))}
+              placeholder="按类型筛选"
+              clearable
+              options={[...TYPE_OPTIONS]}
+            />
+          </div>
+          <div style={{ width: 140 }}>
+            <Select
+              value={filterPerishable}
+              onChange={(value) => setFilterPerishable(String(value || ''))}
+              placeholder="按易腐筛选"
+              clearable
+              options={[...PERISHABLE_OPTIONS]}
+            />
+          </div>
+          {hasFilter && (
+            <Button variant="text" onClick={clearFilters}>
+              清除筛选（{filteredItems.length} 条）
+            </Button>
+          )}
+        </div>
+        <Button
+          theme="primary"
+          size="large"
+          icon={<AddIcon />}
+          onClick={openCreate}
+          style={{ fontSize: 14, fontWeight: 600, boxShadow: '0 2px 8px rgba(232, 83, 14, 0.25)' }}
+        >
+          新建食材
+        </Button>
       </div>
 
       <DataTable<IngredientRecord>
         columns={allColumns}
-        data={items}
+        data={filteredItems}
         loading={isLoading}
         rowKey="id"
-        searchPlaceholder="搜索食材名称..."
+        searchPlaceholder="搜索食材名称、分类..."
         emptyText="暂无食材数据"
-        emptyDescription={'点击"新建食材"按钮添加第一条食材记录'}
+        emptyDescription={hasFilter ? '当前筛选条件下没有食材' : '点击"新建食材"按钮添加食材'}
         pageSize={15}
       />
 

@@ -2,9 +2,7 @@ import { useMemo, useState } from 'react';
 import useSWR from 'swr';
 import Card from 'tdesign-react/es/card';
 import Button from 'tdesign-react/es/button';
-import Input from 'tdesign-react/es/input';
 import Select from 'tdesign-react/es/select';
-import Table from 'tdesign-react/es/table';
 import Tag from 'tdesign-react/es/tag';
 import Space from 'tdesign-react/es/space';
 import {
@@ -42,7 +40,8 @@ export function DefaultDishesPage() {
   const [queryDayOfWeek, setQueryDayOfWeek] = useState<WeekdayValue>(1);
   const [records, setRecords] = useState<DefaultDishRecord[]>([]);
   const [saving, setSaving] = useState(false);
-  const [search, setSearch] = useState('');
+  const [dishSearch, setDishSearch] = useState('');
+  const [selectedDishId, setSelectedDishId] = useState<string | undefined>(undefined);
 
   const { isLoading, mutate } = useSWR(
     queryStoreId ? ['default-dishes', queryStoreId, queryMealType, queryDayOfWeek] : null,
@@ -53,10 +52,23 @@ export function DefaultDishesPage() {
     },
   );
 
-  const filteredDishes = useMemo(() => {
-    const term = search.trim().toLowerCase();
-    return dishes.filter((dish) => !term || dish.name.toLowerCase().includes(term) || dish.category.toLowerCase().includes(term));
-  }, [dishes, search]);
+  const dishOptions = useMemo(() => {
+    const term = dishSearch.trim().toLowerCase();
+    if (!term) return [];
+    return dishes
+      .filter(
+        (dish) =>
+          dish.name.toLowerCase().includes(term) ||
+          dish.category.toLowerCase().includes(term) ||
+          (dish.dishTypeTag || '').toLowerCase().includes(term),
+      )
+      .slice(0, 20)
+      .map((dish) => ({
+        value: dish.id,
+        label: `${dish.name}（${dish.category}）`,
+        dish,
+      }));
+  }, [dishes, dishSearch]);
 
   async function handleSave() {
     setSaving(true);
@@ -105,7 +117,17 @@ export function DefaultDishesPage() {
           </label>
           <label>
             <span>门店名称</span>
-            <Input value={storeName} readonly />
+            <div style={{
+              padding: '5px 8px',
+              border: '1px solid var(--td-component-border)',
+              borderRadius: 'var(--td-radius-default, 6px)',
+              minHeight: 32,
+              display: 'flex',
+              alignItems: 'center',
+              fontSize: '0.9rem',
+            }}>
+              {storeName || '-'}
+            </div>
           </label>
         </div>
 
@@ -123,31 +145,25 @@ export function DefaultDishesPage() {
         </Space>
       </Card>
 
-      <Card title="菜品选择" subtitle="搜索菜品目录，添加当日固定菜品。" bordered>
-        <Input value={search} onChange={(v) => setSearch(v as string)} placeholder="搜索菜品名称或分类" style={{ marginBottom: 12 }} />
-        <div className="table-shell">
-          <Table
-            resizable
-            data={filteredDishes}
-            columns={[
-              { colKey: 'name', title: '名称' },
-              { colKey: 'category', title: '分类' },
-              { colKey: 'mealType', title: '餐段', cell: ({ row }) => (row as DishRecord).mealType || '正餐' },
-              { colKey: 'dishTypeTag', title: '标签', cell: ({ row }) => (row as DishRecord).dishTypeTag || '自动判定' },
-              {
-                colKey: 'action', title: '操作',
-                cell: ({ row }) => {
-                  const dish = row as DishRecord;
-                  const added = records.some((item) => item.dishId === dish.id);
-                  return <Button size="small" variant="outline" onClick={() => addDish(dish)} disabled={added}>{added ? '已添加' : '添加'}</Button>;
-                },
-              },
-            ]}
-            rowKey="id"
-            size="small"
-            hover
-            stripe
-          />
+      <Card title="菜品选择" subtitle="输入菜品名称自动检索，从下拉中选择添加为固定菜品。" bordered>
+        <Select
+          filterable
+          clearable
+          placeholder="输入菜品名称或分类检索..."
+          value={selectedDishId}
+          options={dishOptions}
+          empty="输入名称后展示匹配菜品"
+          onSearch={(v) => setDishSearch((v as string) || '')}
+          onChange={(v) => {
+            const dish = dishes.find((item) => item.id === v);
+            if (dish) addDish(dish);
+            setSelectedDishId(undefined);
+            setDishSearch('');
+          }}
+          style={{ width: '100%' }}
+        />
+        <div style={{ marginTop: 8, fontSize: 12, color: 'var(--td-text-color-placeholder)' }}>
+          提示：输入 1 个字以上开始检索，最多展示 20 个匹配菜品
         </div>
       </Card>
 
